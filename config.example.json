@@ -1,0 +1,15 @@
+{
+  "ssh_host": "1.2.3.4:22",
+  "ssh_user": "root",
+  "ssh_password": "",
+  "ssh_key_path": "~/.ssh/id_rsa",
+  "ssh_key_pass": "",
+  "milvus_addr": "localhost:19530",
+  "milvus_user": "",
+  "milvus_pass": "",
+  "milvus_db": "default",
+  "embedding_provider": "",
+  "embedding_api_key": "",
+  "embedding_model": "text-embedding-3-small",
+  "embedding_api_url": ""
+}
