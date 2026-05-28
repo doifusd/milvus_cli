@@ -42,10 +42,10 @@ func main() {
 		if _, err := os.Stat(localPath); err == nil {
 			configPath = localPath
 		} else {
-			// Fallback to ~/.milvus-cli/config.json
+			// Fallback to ~/.milvus_cli/config.json
 			home, err := os.UserHomeDir()
 			if err == nil {
-				globalDir := filepath.Join(home, ".milvus-cli")
+				globalDir := filepath.Join(home, ".milvus_cli")
 				configPath = filepath.Join(globalDir, "config.json")
 			} else {
 				configPath = localPath
@@ -153,7 +153,7 @@ func main() {
 }
 
 func printCliHelp() {
-	fmt.Println("Usage: milvus-cli [options] [command]")
+	fmt.Println("Usage: milvus_cli [options] [command]")
 	fmt.Println()
 	fmt.Println("Options:")
 	flag.PrintDefaults()

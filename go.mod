@@ -1,4 +1,4 @@
-module milvus-cli
+module milvus_cli
 
 go 1.23.10
 

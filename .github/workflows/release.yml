@@ -37,7 +37,7 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CGO_ENABLED: 0
         run: |
-          BINARY_NAME="milvus-cli"
+          BINARY_NAME="milvus_cli"
           # Append .exe extension for Windows build
           if [ "${{ matrix.goos }}" = "windows" ]; then
             BINARY_NAME="${BINARY_NAME}.exe"
@@ -47,7 +47,7 @@ jobs:
           go build -ldflags="-s -w" -o "${BINARY_NAME}" .
           
           # Pack binary into archive
-          ARCHIVE_NAME="milvus-cli-${{ github.ref_name }}-${{ matrix.goos }}-${{ matrix.goarch }}"
+          ARCHIVE_NAME="milvus_cli-${{ github.ref_name }}-${{ matrix.goos }}-${{ matrix.goarch }}"
           if [ "${{ matrix.goos }}" = "windows" ]; then
             zip "${ARCHIVE_NAME}.zip" "${BINARY_NAME}"
             echo "ASSET_PATH=${ARCHIVE_NAME}.zip" >> $GITHUB_ENV

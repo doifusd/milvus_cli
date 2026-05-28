@@ -12,7 +12,7 @@ A lightweight, terminal-based interactive query client and administration tool f
 - **Dynamic Tab Autocompletion**:
   - Auto-suggests commands.
   - Dynamically fetches and suggests Milvus **databases** (for `use <db>`) and **collections** (for `describe`, `query`, `search`, etc.) over the SSH tunnel.
-- **Command History**: Navigate history with `Up` and `Down` arrow keys. Command history is persisted across shell sessions in `~/.milvus-cli-history`.
+- **Command History**: Navigate history with `Up` and `Down` arrow keys. Command history is persisted across shell sessions in `~/.milvus_cli_history`.
 - **Entity Count**: Run `count <collection>` to get precise entity counts (on loaded collections) or metadata-based estimates (on unloaded collections).
 - **Collection Control**: Dynamically load or release collections from memory using `load` and `release`.
 - **Pretty Print Tables**: Custom-built visualizer formats schemas, indexes, and queries into beautifully structured Unicode-bordered tables.
@@ -45,16 +45,16 @@ Alternatively, compile from source:
 ```bash
 git clone https://github.com/yourusername/milvus_cli.git
 cd milvus_cli
-go build -o milvus-cli
+go build -o milvus_cli
 ```
 
 ### 3. Configure Connection
 Copy the example configuration file and fill in your SSH jump host credentials and Milvus target details:
-* **Global config (Recommended)**: Create a directory named `.milvus-cli` in your user home folder and put `config.json` there:
+* **Global config (Recommended)**: Create a directory named `.milvus_cli` in your user home folder and put `config.json` there:
   ```bash
-  mkdir -p ~/.milvus-cli
-  cp config.example.json ~/.milvus-cli/config.json
-  # Edit ~/.milvus-cli/config.json with your credentials
+  mkdir -p ~/.milvus_cli
+  cp config.example.json ~/.milvus_cli/config.json
+  # Edit ~/.milvus_cli/config.json with your credentials
   ```
 * **Local config**: Alternatively, copy it to the current directory:
   ```bash
@@ -65,10 +65,10 @@ Copy the example configuration file and fill in your SSH jump host credentials a
 ### 4. Run the Client
 ```bash
 # Enter interactive shell mode
-./milvus-cli
+./milvus_cli
 
 # Or run a single-shot command directly and exit
-./milvus-cli query my_collection "id != ''" name age
+./milvus_cli query my_collection "id != ''" name age
 ```
 
 ---
