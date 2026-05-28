@@ -1,8 +1,9 @@
-module milvus-ssh-cli
+module milvus-cli
 
 go 1.23.10
 
 require (
+	github.com/chzyer/readline v1.5.1
 	github.com/milvus-io/milvus-sdk-go/v2 v2.4.2
 	golang.org/x/crypto v0.14.0
 	golang.org/x/term v0.13.0
@@ -10,7 +11,6 @@ require (
 )
 
 require (
-	github.com/chzyer/readline v1.5.1 // indirect
 	github.com/cockroachdb/errors v1.9.1 // indirect
 	github.com/cockroachdb/logtags v0.0.0-20211118104740-dabe8e521a4f // indirect
 	github.com/cockroachdb/redact v1.1.3 // indirect

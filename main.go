@@ -5,13 +5,14 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
 
 func main() {
 	// 1. Setup flags
-	configFlag := flag.String("config", "config.json", "Path to config JSON file")
+	configFlag := flag.String("config", "", "Path to config JSON file")
 	sshHostFlag := flag.String("ssh-host", "", "SSH Host (e.g. 1.2.3.4:22)")
 	sshUserFlag := flag.String("ssh-user", "", "SSH User")
 	sshKeyFlag := flag.String("ssh-key", "", "SSH Private Key Path")
@@ -31,7 +32,26 @@ func main() {
 
 	// 2. Load or initialize configuration
 	cfg := DefaultConfig()
-	configPath := *configFlag
+	var configPath string
+
+	if *configFlag != "" {
+		configPath = ExpandPath(*configFlag)
+	} else {
+		// Try local config.json first
+		localPath := "config.json"
+		if _, err := os.Stat(localPath); err == nil {
+			configPath = localPath
+		} else {
+			// Fallback to ~/.milvus-cli/config.json
+			home, err := os.UserHomeDir()
+			if err == nil {
+				globalDir := filepath.Join(home, ".milvus-cli")
+				configPath = filepath.Join(globalDir, "config.json")
+			} else {
+				configPath = localPath
+			}
+		}
+	}
 
 	if _, err := os.Stat(configPath); err == nil {
 		loadedCfg, loadErr := LoadConfig(configPath)
@@ -40,12 +60,20 @@ func main() {
 		} else {
 			fmt.Printf("⚠️  Warning loading config file: %v. Using defaults.\n", loadErr)
 		}
-	} else if os.IsNotExist(err) && configPath == "config.json" {
-		// Create a default config file template if it does not exist
-		fmt.Printf("📝 Config file 'config.json' not found. Creating a default template...\n")
-		saveErr := SaveConfig("config.json", cfg)
-		if saveErr != nil {
-			fmt.Printf("⚠️  Failed to create default config file: %v\n", saveErr)
+	} else if os.IsNotExist(err) {
+		// If no explicit path was provided, automatically create the default config file template
+		if *configFlag == "" {
+			parentDir := filepath.Dir(configPath)
+			if parentDir != "." {
+				if err := os.MkdirAll(parentDir, 0755); err != nil {
+					fmt.Printf("⚠️  Failed to create config directory %s: %v\n", parentDir, err)
+				}
+			}
+			fmt.Printf("📝 Config file '%s' not found. Creating a default template...\n", configPath)
+			saveErr := SaveConfig(configPath, cfg)
+			if saveErr != nil {
+				fmt.Printf("⚠️  Failed to create default config file: %v\n", saveErr)
+			}
 		}
 	}
 
@@ -125,7 +153,7 @@ func main() {
 }
 
 func printCliHelp() {
-	fmt.Println("Usage: milvus-ssh-cli [options] [command]")
+	fmt.Println("Usage: milvus-cli [options] [command]")
 	fmt.Println()
 	fmt.Println("Options:")
 	flag.PrintDefaults()

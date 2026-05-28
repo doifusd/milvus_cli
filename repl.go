@@ -92,14 +92,14 @@ func (r *REPL) Run() {
 		),
 	)
 
-	historyFile := filepath.Join(os.TempDir(), "milvus-ssh-cli-history.tmp")
+	historyFile := filepath.Join(os.TempDir(), "milvus-cli-history.tmp")
 	home, err := os.UserHomeDir()
 	if err == nil {
-		historyFile = filepath.Join(home, ".milvus-ssh-cli-history")
+		historyFile = filepath.Join(home, ".milvus-cli-history")
 	}
 
 	prompt := func() string {
-		return fmt.Sprintf("%smilvus-ssh (%s)%s> ", ColorBold+ColorBlue, r.cfg.MilvusDB, ColorReset)
+		return fmt.Sprintf("%smilvus-cli (%s)%s> ", ColorBold+ColorBlue, r.cfg.MilvusDB, ColorReset)
 	}
 
 	rl, err := readline.NewEx(&readline.Config{
